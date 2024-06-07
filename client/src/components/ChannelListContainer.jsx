@@ -6,6 +6,8 @@ import { ChannelSearch, TeamChannelList, TeamChannelPreview } from './';
 import HospitalIcon from '../assets/hospital.png';
 import LogoutIcon from '../assets/logout.png';
 
+const cookies = new Cookies();
+
 const SideBar = () => (
   <div className="channel-list__sidebar">
     <div className="channel-list__sidebar__icon1">
@@ -27,29 +29,52 @@ const CompanyHeader = () => (
   </div>
 );
 
+const customChannelTeamFilter = (channels) => {
+  return channels.filter((channel) => channel.type === 'team');
+};
+
+const customChannelMessagingFilter = (channels) => {
+  return channels.filter((channel) => channel.type === 'messaging');
+};
+
 const ChannelListContainer = () => {
+  const logout = () => {
+    cookies.remove('token');
+    cookies.remove('userId');
+    cookies.remove('username');
+    cookies.remove('fullName');
+    cookies.remove('avatarURL');
+    cookies.remove('hashedPassword');
+    cookies.remove('phoneNumber');
+
+    window.location.reload();
+  };
   return (
     <>
-      <SideBar />
+      <SideBar logout={logout} />
       <div className="channel-list__list__wrapper">
         <CompanyHeader />
         <ChannelSearch />
         <ChannelList
-          filters={{}}
+          filters={customChannelTeamFilter}
           channelRenderFilterFn={() => {}}
           List={(listProps) => <TeamChannelList {...listProps} type="team" />}
           Preview={(previewProps) => (
             <TeamChannelPreview {...previewProps} type="team" />
           )}
+          EmptyStateIndicator={() => <p>You have no team channels currently</p>}
         />
         <ChannelList
-          filters={{}}
+          filters={customChannelMessagingFilter}
           channelRenderFilterFn={() => {}}
           List={(listProps) => (
             <TeamChannelList {...listProps} type="messaging" />
           )}
           Preview={(previewProps) => (
             <TeamChannelPreview {...previewProps} type="messaging" />
+          )}
+          EmptyStateIndicator={() => (
+            <p>You have no messaging channels currently</p>
           )}
         />
       </div>
