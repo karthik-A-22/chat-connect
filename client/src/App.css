@@ -1728,6 +1728,10 @@ div.rta__autocomplete.str-chat__emojisearch {
     padding: 10px;
 }
 
+.str-chat__channel-list {
+    background-color: var(--primary-color) !important;
+}
+
 @media screen and (max-width: 960px) {
     .channel-list__container {
         display: none;
