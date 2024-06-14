@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   MessageList,
+  Channel,
   MessageInput,
   Thread,
   Window,
@@ -9,10 +10,16 @@ import {
   useChannelStateContext,
   useChatContext,
 } from 'stream-chat-react';
+import { EmojiPicker } from 'stream-chat-react/emojis';
+
+import { init, SearchIndex } from 'emoji-mart';
+import data from '@emoji-mart/data';
 
 import { ChannelInfo } from '../assets';
 
 export const GiphyContext = React.createContext({});
+
+init({ data });
 
 const ChannelInner = ({ setIsEditing }) => {
   const [giphyState, setGiphyState] = useState(false);
@@ -40,12 +47,14 @@ const ChannelInner = ({ setIsEditing }) => {
   return (
     <GiphyContext.Provider value={{ giphyState, setGiphyState }}>
       <div style={{ display: 'flex', width: '100%' }}>
-        <Window>
-          <TeamChannelHeader setIsEditing={setIsEditing} />
-          <MessageList />
-          <MessageInput overrideSubmitHandler={overrideSubmitHandler} />
-        </Window>
-        <Thread />
+        <Channel EmojiPicker={EmojiPicker} emojiSearchIndex={SearchIndex} >
+          <Window>
+            <TeamChannelHeader setIsEditing={setIsEditing} />
+            <MessageList />
+            <MessageInput overrideSubmitHandler={overrideSubmitHandler} />
+          </Window>
+          <Thread />
+        </Channel>
       </div>
     </GiphyContext.Provider>
   );

@@ -205,6 +205,7 @@ body {
 
 .str-chat-channel {
     height: 100%;
+    width: 100%;
 }
 
 .str-chat__load-more-button {
