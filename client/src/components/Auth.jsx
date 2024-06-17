@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
 
-import signinImage from '../assets/signup.jpg';
+import signinImage from '../assets/colorful-3d-background_23-2148484152.jpg';
 
 const cookies = new Cookies();
 
